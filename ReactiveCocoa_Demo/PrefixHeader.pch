@@ -1,0 +1,19 @@
+//
+//  PrefixHeader.pch
+//  ReactiveCocoa_Demo
+//
+//  Created by Transuner on 2017/2/4.
+//  Copyright © 2017年 吴冰. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "RegularDefinition.h"
+#import "SystemDefinition.h"
+#import "AFNetworking.h"
+#import "ReactiveCocoa.h"
+#import "MJExtension.h"
+
+#define CellID NSStringFromClass([newsCell class])
+#endif /* PrefixHeader_pch */
