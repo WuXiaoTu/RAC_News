@@ -68,7 +68,8 @@
     [[self.viewModel.loginCommand executionSignals]
      subscribeNext:^(RACSignal *x) {
 
-         [x subscribeNext:^(NSString *x) {
+         [x subscribeNext:^(id x) {
+             NSLog(@"登录成功返回的数据：%@",x);
              @strongify(self);
              [self.navigationController popViewControllerAnimated:YES];
          }];

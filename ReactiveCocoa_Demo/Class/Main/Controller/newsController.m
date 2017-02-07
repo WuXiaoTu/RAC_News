@@ -124,7 +124,7 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     newsCell * cell = [tableView dequeueReusableCellWithIdentifier:CellID];
-    [cell setCellData:(newsModel*)self.viewModel.newsList[indexPath.item]];
+    [cell setModel:(newsModel*)self.viewModel.newsList[indexPath.item]];
     return cell;
 }
 @end

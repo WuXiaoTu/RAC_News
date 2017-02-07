@@ -14,6 +14,5 @@
 @property (nonatomic, strong) UILabel     * content;
 @property (nonatomic, strong) UILabel     * title;
 @property (nonatomic, strong) UIImageView * samllImg;
-
-- (void)setCellData:(newsModel *)model;
+@property (nonatomic, strong) newsModel   * model;
 @end

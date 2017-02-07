@@ -48,6 +48,7 @@
     [BaseHttpRequest post:APICURREVENTS parameter:nil HttpProgress:^(NSProgress *progress) {
     } success:^(id responseObject, BOOL error) {
         if (error) {
+            
             NSArray * adverArray = responseObject[@"data"];
             RACSequence *sequence = [[adverArray valueForKey:@"url"] rac_sequence];
             RACSignal *signal =  sequence.signal;
@@ -55,6 +56,7 @@
                 [self.advertis addObject:x];
                 if (adverArray.count == self.advertis.count) completion(self.advertis);
             }];
+
         }
     } failure:^(NSError *error) {
     }];
@@ -100,14 +102,15 @@
     }];
     return signal;
 }
-
+@synthesize cellClickSubJect = _cellClickSubJect;
 - (RACSubject *)cellClickSubJect {
-    
     if (!_cellClickSubJect) {
-        
-        _cellClickSubJect = [RACSubject subject];
+        @synchronized (self) {
+            if (!_cellClickSubJect) {
+                _cellClickSubJect = [RACSubject subject];
+            }
+        }
     }
-    
     return _cellClickSubJect;
 }
 
