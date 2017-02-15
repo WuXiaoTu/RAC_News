@@ -20,8 +20,9 @@
         .topSpaceToView(self.contentView,10)
         .widthIs(80)
         .heightIs(80);
-        
+        @weakify(self);
         [RACObserve(self, model)subscribeNext:^(newsModel * model) {
+            @strongify(self);
             [self.samllImg sd_setImageWithURL:[NSURL URLWithString:model.sallimg]];
             [self.samllImg setHidden:[model.sallimg isEqualToString:@""]];
             [self.content setText:model.content];

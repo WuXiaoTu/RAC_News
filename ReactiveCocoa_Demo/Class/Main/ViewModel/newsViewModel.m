@@ -17,8 +17,10 @@
 @implementation newsViewModel
 
 - (instancetype) init {
+    
     if (self = [super init]) {
-        _newPageNum = 0;
+        
+        
     }
     return self;
 }
@@ -62,45 +64,65 @@
     }];
 }
 
+@synthesize updateNewsSignal = _updateNewsSignal;
 - (RACSignal *)updateNewsSignal
 {
-    @weakify(self)
-    RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        @strongify(self);
-        [self requestNewSubscribeWithPage:self.newPageNum completion:^{
-            [subscriber sendNext:nil];
-        }];
-        return nil;
-    }];
-    self.newPageNum = 0;
-    return signal;
+    if (!_updateNewsSignal) {
+        @synchronized (self) {
+            if (!_updateNewsSignal) {
+                @weakify(self)
+                _updateNewsSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                    @strongify(self);
+                    [self requestNewSubscribeWithPage:self.newPageNum completion:^{
+                        [subscriber sendNext:nil];
+                    }];
+                    return nil;
+                }];
+                self.newPageNum = 0;
+            }
+        }
+    }
+    return _updateNewsSignal;
 }
 
+@synthesize updateMoreSignal = _updateMoreSignal;
 - (RACSignal *)updateMoreSignal
 {
-    @weakify(self)
-    RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        @strongify(self);
-        [self requestNewSubscribeWithPage:self.newPageNum completion:^{
-            [subscriber sendNext:nil];
-        }];
-        return nil;
-    }];
-    self.newPageNum += 10;
-    return signal;
+    if (!_updateMoreSignal) {
+        @synchronized (self) {
+            if (!_updateMoreSignal) {
+                @weakify(self)
+                _updateMoreSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                    @strongify(self);
+                    [self requestNewSubscribeWithPage:self.newPageNum completion:^{
+                        [subscriber sendNext:nil];
+                    }];
+                    return nil;
+                }];
+                self.newPageNum += 10;
+            }
+        }
+    }
+    return _updateMoreSignal;
 }
-
+@synthesize updateAdvertisingSignal = _updateAdvertisingSignal;
 - (RACSignal *)updateAdvertisingSignal
 {
-    @weakify(self)
-    RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        @strongify(self);
-        [self requestAdvertisingSubscribeCompletion:^(id responseObject) {
-            [subscriber sendNext:responseObject];
-        }];
-        return nil;
-    }];
-    return signal;
+    if (!_updateAdvertisingSignal) {
+        @synchronized (self) {
+            if (!_updateAdvertisingSignal) {
+                @weakify(self)
+                _updateAdvertisingSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                    @strongify(self);
+                    [self requestAdvertisingSubscribeCompletion:^(id responseObject) {
+                        [subscriber sendNext:responseObject];
+                    }];
+                    return nil;
+                }];
+            }
+        }
+    }
+    return _updateAdvertisingSignal;
 }
 @synthesize cellClickSubJect = _cellClickSubJect;
 - (RACSubject *)cellClickSubJect {
